@@ -18,3 +18,27 @@ const dbConfig = {
 }
 // Buat connection pool
 const pool = mysql.createPool(dbConfig)
+
+
+// Test koneksi database saat server start
+async function testConnection() {
+  try {
+    const connection = await pool.getConnection()
+    console.log('✅ Koneksi ke MySQL berhasil!')
+    connection.release()
+  } catch (error) {
+    console.error('❌ Gagal koneksi ke MySQL:', error.message)
+    process.exit(1)
+  }
+}
+testConnection()
+
+// Middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
+
+// Route untuk root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
