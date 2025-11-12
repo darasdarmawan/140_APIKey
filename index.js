@@ -16,3 +16,5 @@ const dbConfig = {
   connectionLimit: 10,
   queueLimit: 0
 }
+// Buat connection pool
+const pool = mysql.createPool(dbConfig)
